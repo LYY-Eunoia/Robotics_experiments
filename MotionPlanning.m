@@ -1,22 +1,132 @@
 % Author: 
 %
-% ABSTRACT:  Èý½×¹ì¼£¹æ»®×î»ù±¾ÎÄ¼þ£¬µÑ¿¨¶û¿Õ¼äÖ±Ïß¹ì¼£µÄËÙ¶È¹æ»®
+% ABSTRACT:  ï¿½ï¿½ï¿½×¹ì¼£ï¿½æ»®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Ö±ï¿½ß¹ì¼£ï¿½ï¿½ï¿½Ù¶È¹æ»®
 %
-% INPUTS:InterpolationCycle      ¼ÆËã²½³¤£¬µ¥Î»s ÉèÖÃÎª0.001s
-%        TotalLength             ¹ì¼£³¤¶È£¬1xNÊý×é£¬NÎª¹ì¼£×ÔÓÉ¶ÈÊý£¬µ¥Î»m»òÕßrad
-%        Vmax                    ¹ì¼£ÔÈËÙ¶Î×î´óËÙ¶È£¬1xNÊý×é£¬µ¥Î»m/s »òrad/s
-%        Acc                     ×î´ó¼ÓËÙ¶È£¬1xNÊý×é£¬µ¥Î»m/s^2 »ò rad/s^2
-%        Dec                     ×î´ó¼õËÙ¶È£¬1xNÊý×é£¬µ¥Î»m/s^2 »ò rad/s^2
+% INPUTS:InterpolationCycle      ï¿½ï¿½ï¿½ã²½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»s ï¿½ï¿½ï¿½ï¿½Îª0.001s
+%        TotalLength             ï¿½ì¼£ï¿½ï¿½ï¿½È£ï¿½1xNï¿½ï¿½ï¿½é£¬NÎªï¿½ì¼£ï¿½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»mï¿½ï¿½ï¿½ï¿½rad
+%        Vmax                    ï¿½ì¼£ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È£ï¿½1xNï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m/s ï¿½ï¿½rad/s
+%        Acc                     ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È£ï¿½1xNï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m/s^2 ï¿½ï¿½ rad/s^2
+%        Dec                     ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È£ï¿½1xNï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m/s^2 ï¿½ï¿½ rad/s^2
 %
-% OUTPUTS:MotionData             ¹ì¼£¹«Ê½²ÎÊý£¬
-%         s 	                 ¹ì¼£³¤¶ÈÊý×é£¬NxMÊý×é£¬µ¥Î»m »ò rad
-%         v 	                 ËÙ¶ÈÊý×é£¬NxMÊý×é£¬µ¥Î»m/s »òrad/s
-%         a 	                 ¼ÓËÙ¶ÈÊý×é£¬NxMÊý×é£¬µ¥Î»m/s^2 »ò rad/s^2
-%         t 	                 Ê±¼äÊý×é£¬Mx1Êý×é£¬µ¥Î»s
-%         maxtime 	             ËùÐèÊ±¼ä£¬µ¥Î»s
+% OUTPUTS:MotionData             ï¿½ì¼£ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+%         s 	                 ï¿½ì¼£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬NxMï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m ï¿½ï¿½ rad
+%         v 	                 ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½é£¬NxMï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m/s ï¿½ï¿½rad/s
+%         a 	                 ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½é£¬NxMï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»m/s^2 ï¿½ï¿½ rad/s^2
+%         t 	                 Ê±ï¿½ï¿½ï¿½ï¿½ï¿½é£¬Mx1ï¿½ï¿½ï¿½é£¬ï¿½ï¿½Î»s
+%         maxtime 	             ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½Î»s
 
-function MotionData = MotionPlanning(TotalLength, Vmax, Accel, Decel,Ts)
-
-
-  
+function MotionData = MotionPlanning(TotalLength, Vmax, Accel, Decel, Ts)
+    % Number of axes
+    N = length(TotalLength);
+    
+    % Initialize arrays to store timing parameters for each axis
+    t_accel = zeros(1, N);  % Acceleration time
+    t_const = zeros(1, N);  % Constant velocity time
+    t_decel = zeros(1, N);  % Deceleration time
+    t_total = zeros(1, N);  % Total time for each axis
+    v_actual = zeros(1, N); % Actual max velocity (may be reduced for triangular profile)
+    
+    % Calculate motion parameters for each axis independently
+    for i = 1:N
+        S = abs(TotalLength(i));  % Total displacement (absolute value)
+        V = Vmax(i);              % Maximum velocity
+        A = Accel(i);             % Acceleration
+        D = Decel(i);             % Deceleration
+        
+        % Time to accelerate to max velocity
+        t_acc = V / A;
+        % Time to decelerate from max velocity
+        t_dec = V / D;
+        % Distance covered during acceleration
+        s_acc = 0.5 * A * t_acc^2;
+        % Distance covered during deceleration
+        s_dec = 0.5 * D * t_dec^2;
+        
+        % Check if trapezoidal or triangular profile
+        if (s_acc + s_dec) <= S
+            % Trapezoidal profile: reaches max velocity
+            t_accel(i) = t_acc;
+            t_decel(i) = t_dec;
+            % Distance during constant velocity phase
+            s_const = S - s_acc - s_dec;
+            t_const(i) = s_const / V;
+            v_actual(i) = V;
+        else
+            % Triangular profile: doesn't reach max velocity
+            % Calculate actual peak velocity
+            v_peak = sqrt(2 * S * A * D / (A + D));
+            v_actual(i) = v_peak;
+            t_accel(i) = v_peak / A;
+            t_decel(i) = v_peak / D;
+            t_const(i) = 0;
+        end
+        
+        % Total time for this axis
+        t_total(i) = t_accel(i) + t_const(i) + t_decel(i);
+    end
+    
+    % Synchronize: use maximum time across all axes
+    maxtime = max(t_total);
+    
+    % Generate time vector
+    M = ceil(maxtime / Ts) + 1;  % Number of time samples
+    t = (0:M-1)' * Ts;  % Time vector (Mx1)
+    
+    % Initialize output matrices
+    s = zeros(N, M);  % Position (NxM)
+    v = zeros(N, M);  % Velocity (NxM)
+    a = zeros(N, M);  % Acceleration (NxM)
+    
+    % Generate trajectory for each axis
+    for i = 1:N
+        S = TotalLength(i);  % Total displacement (with sign)
+        sign_S = sign(S);
+        if sign_S == 0
+            sign_S = 1;  % Handle zero displacement case
+        end
+        S_abs = abs(S);
+        
+        A = Accel(i);
+        D = Decel(i);
+        V = v_actual(i);
+        
+        t1 = t_accel(i);
+        t2 = t_accel(i) + t_const(i);
+        t3 = t_total(i);
+        
+        for j = 1:M
+            t_curr = t(j);
+            
+            if t_curr <= t1
+                % Acceleration phase
+                a(i, j) = sign_S * A;
+                v(i, j) = sign_S * A * t_curr;
+                s(i, j) = sign_S * 0.5 * A * t_curr^2;
+            elseif t_curr <= t2
+                % Constant velocity phase
+                a(i, j) = 0;
+                v(i, j) = sign_S * V;
+                s(i, j) = sign_S * (0.5 * A * t1^2 + V * (t_curr - t1));
+            elseif t_curr <= t3
+                % Deceleration phase
+                t_dec_elapsed = t_curr - t2;
+                a(i, j) = -sign_S * D;
+                v(i, j) = sign_S * (V - D * t_dec_elapsed);
+                s_before = 0.5 * A * t1^2 + V * (t2 - t1);
+                s(i, j) = sign_S * (s_before + V * t_dec_elapsed - 0.5 * D * t_dec_elapsed^2);
+            else
+                % Motion complete, hold final position
+                a(i, j) = 0;
+                v(i, j) = 0;
+                s(i, j) = S;
+            end
+        end
+    end
+    
+    % Package results into output structure
+    MotionData.s = s;
+    MotionData.v = v;
+    MotionData.a = a;
+    MotionData.t = t;
+    MotionData.maxtime = maxtime;
 end
