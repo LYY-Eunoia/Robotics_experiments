@@ -19,6 +19,20 @@ function MotionData = MotionPlanning(TotalLength, Vmax, Accel, Decel, Ts)
     % Number of axes
     N = length(TotalLength);
     
+    % Input validation
+    if any(Accel <= 0)
+        error('Acceleration values must be positive');
+    end
+    if any(Decel <= 0)
+        error('Deceleration values must be positive');
+    end
+    if any(Vmax <= 0)
+        error('Maximum velocity values must be positive');
+    end
+    if Ts <= 0
+        error('Sampling time must be positive');
+    end
+    
     % Initialize arrays to store timing parameters for each axis
     t_accel = zeros(1, N);  % Acceleration time
     t_const = zeros(1, N);  % Constant velocity time
@@ -80,10 +94,7 @@ function MotionData = MotionPlanning(TotalLength, Vmax, Accel, Decel, Ts)
     % Generate trajectory for each axis
     for i = 1:N
         S = TotalLength(i);  % Total displacement (with sign)
-        sign_S = sign(S);
-        if sign_S == 0
-            sign_S = 1;  % Handle zero displacement case
-        end
+        sign_S = sign(S) + (S == 0);  % Returns 1 when S is 0, otherwise sign of S
         S_abs = abs(S);
         
         A = Accel(i);
