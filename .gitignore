@@ -1,0 +1,26 @@
+# MATLAB output files
+*.mat
+*.csv
+*.asv
+
+# MATLAB autosave
+*.m~
+
+# Compiled MEX files
+*.mex*
+
+# Generated figures
+*.fig
+*.png
+*.jpg
+*.eps
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*~
