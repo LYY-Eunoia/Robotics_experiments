@@ -1,0 +1,16 @@
+% Xylophone Key Positions and Orientations
+% Format: Note, x(mm), y(mm), z(mm), rx(deg), ry(deg), rz(deg)
+% Each row represents a musical note key position relative to robot base
+% The position and orientation define where the robot end-effector should strike
+
+% Note positions arranged from left to right on the xylophone
+% z-coordinate represents height, x-y plane is horizontal
+% Euler angles (rx, ry, rz) define the striking orientation
+
+Do,  400.0,  -200.0,  800.0,  0.0,  180.0,  0.0
+Re,  400.0,  -133.3,  800.0,  0.0,  180.0,  0.0
+Mi,  400.0,   -66.7,  800.0,  0.0,  180.0,  0.0
+Fa,  400.0,     0.0,  800.0,  0.0,  180.0,  0.0
+Sol, 400.0,    66.7,  800.0,  0.0,  180.0,  0.0
+La,  400.0,   133.3,  800.0,  0.0,  180.0,  0.0
+Si,  400.0,   200.0,  800.0,  0.0,  180.0,  0.0
