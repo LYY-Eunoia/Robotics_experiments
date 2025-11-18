@@ -1,6 +1,21 @@
 function GenerateJointTrajectory()
     clc; close all;
 
+    %% ========== CONFIGURATION (Modify as needed) ====================
+    % If you get "No valid IK solution" errors, try:
+    % 1. Run FixNotePositionsIK() to find the right settings
+    % 2. Adjust the parameters below based on recommendations
+    
+    % Euler angle convention for note.txt
+    % Options: 'ZYX', 'XYZ', 'ZXY', 'YXZ', 'XZY', 'YZX'
+    euler_convention = 'ZYX';  % Default: ZYX (Roll-Pitch-Yaw)
+    
+    % Fixed orientation (if needed)
+    % Set to [] to use orientations from note.txt
+    % Set to [rx, ry, rz] to use fixed orientation for all notes
+    % Example: [0, 180, 0] for downward pointing
+    use_fixed_orientation = [];  % Default: use note.txt orientations
+    
     %% ========== Step 1: Load xylophone note positions and musical score ============
     fprintf("=== Xylophone Playing Project: Twinkle Twinkle Little Star ===\n\n");
     
@@ -9,7 +24,14 @@ function GenerateJointTrajectory()
     if ~exist(note_file, 'file')
         error('Note file not found: %s', note_file);
     end
-    note_data = LoadNotePositions(note_file);
+    
+    % Load with specified configuration
+    if isempty(use_fixed_orientation)
+        note_data = LoadNotePositions(note_file, 'EulerConvention', euler_convention);
+    else
+        note_data = LoadNotePositions(note_file, 'UseFixedOrientation', use_fixed_orientation);
+        fprintf('Using fixed orientation: [%.1f, %.1f, %.1f] degrees\n', use_fixed_orientation);
+    end
     
     % Get musical score
     [note_sequence, time_intervals] = GetTwinkleTwinkleScore();
